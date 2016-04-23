@@ -10,9 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Gamma.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Gamma.fxml"));
+        Parent root = loader.load(getClass().getResource("Gamma.fxml"));
         primaryStage.setTitle("Symulacja Gamma");
         primaryStage.setScene(new Scene(root, 800, 500));
+        Controller controller = loader.getController();
         primaryStage.show();
     }
 

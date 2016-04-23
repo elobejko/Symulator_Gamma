@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pw.edu.fizyka.pojava.lama.Controller">
    <children>
       <HBox prefHeight="310.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;">
          <children>
@@ -17,12 +17,12 @@
                   <Insets left="15.0" top="15.0" />
                </HBox.margin>
             </Pane>
-            <LineChart maxHeight="250.0" maxWidth="41.0" minHeight="150.0" minWidth="390.0" style="-fx-background-color: #FFFFFF;">
+            <LineChart fx:id="lineChart" maxHeight="250.0" maxWidth="41.0" minHeight="150.0" minWidth="390.0" style="-fx-background-color: #FFFFFF;">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <NumberAxis label="Grubość absorbentu [mm]" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <NumberAxis label="Ilość żyjących cząstek gamma" side="LEFT" />
               </yAxis>
                <HBox.margin>
                   <Insets right="15.0" top="15.0" />
@@ -34,22 +34,22 @@
          <children>
             <VBox prefHeight="245.0" prefWidth="368.0" style="-fx-background-color: #EEEEEE;">
                <children>
-                  <ComboBox minWidth="-Infinity" prefWidth="165.0" promptText="Materiał promieniujący">
+                  <ComboBox disable="true" minWidth="-Infinity" prefWidth="165.0" promptText="Materiał promieniujący">
                      <VBox.margin>
                         <Insets bottom="5.0" left="50.0" top="40.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox layoutX="60.0" layoutY="50.0" minWidth="-Infinity" prefWidth="165.0" promptText="Materiał przesłony">
+                  <ComboBox fx:id="coverMaterialComboBox" layoutX="60.0" layoutY="50.0" minWidth="-Infinity" onAction="#chooseCoverMaterial" prefWidth="165.0" promptText="Materiał przesłony">
                      <VBox.margin>
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox layoutX="60.0" layoutY="90.0" minWidth="-Infinity" prefWidth="165.0" promptText="Liczba przesłon">
+                  <ComboBox disable="true" layoutX="60.0" layoutY="90.0" minWidth="-Infinity" prefWidth="165.0" promptText="Liczba przesłon">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox layoutX="60.0" layoutY="130.0" minWidth="-Infinity" prefWidth="165.0" promptText="Grubość przesłon">
+                  <ComboBox fx:id="coverDepthComboBox" layoutX="60.0" layoutY="130.0" minWidth="-Infinity" onAction="#chooseCoverDepth" prefWidth="165.0" promptText="Grubość przesłon">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
@@ -72,27 +72,27 @@
                   <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <RadioButton mnemonicParsing="false" text="Skala liniowa">
+                  <RadioButton fx:id="linearScaleButton" mnemonicParsing="false" onAction="#linearScale" text="Skala liniowa">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Skala logarytmiczna" GridPane.columnIndex="1">
+                  <RadioButton fx:id="loggharytmicScaleButton" mnemonicParsing="false" onAction="#logarithmicScale" text="Skala logarytmiczna" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </RadioButton>
-                  <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" text="Start" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
+                  <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#startAction" text="Start" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button layoutX="40.0" layoutY="79.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" text="Stop" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
+                  <Button layoutX="40.0" layoutY="79.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#stopAction" text="Stop" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button layoutX="40.0" layoutY="113.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" text="Eksportuj" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
+                  <Button layoutX="40.0" layoutY="113.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportAction" text="Eksportuj" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
