@@ -2,8 +2,6 @@ package pl.pw.edu.fizyka.pojava.lama;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -16,20 +14,42 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.control.ToggleGroup;
 
 public class Controller {
 
-    double coverDepth ;
-    double miFactor ;
-    double numberScreens;
+    @FXML
+    ComboBox<String> coverMaterialComboBox;
+    @FXML
+    Button exportButton;
+    @FXML
+    ComboBox<String> coverNumberComboBox;
+    @FXML
+    ComboBox<String> coverDepthComboBox;
+    @FXML
+    LineChart<Double, Double> lineChart;
+    @FXML
+    RadioButton linearScaleButton;
+    @FXML
+    RadioButton loggharytmicScaleButton;
+
+    double coverDepth;
+    double miFactor;
+    double coverNumber;
     WritableImage image;
     File file;
+    ToggleGroup groupButtons;
+
     ObservableList<String> optionsCoverMaterials;
     ObservableList<String> optionsCoverDepth;
-    ObservableList<String> optionsNumber;
+    ObservableList<String> optionsCoverNumber;
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        groupButtons = new ToggleGroup();
+        linearScaleButton.setToggleGroup(groupButtons);
+        loggharytmicScaleButton.setToggleGroup(groupButtons);
         optionsCoverMaterials =
                 FXCollections.observableArrayList(
                         "Miedź (Cu)",
@@ -39,13 +59,13 @@ public class Controller {
         coverMaterialComboBox.setItems(optionsCoverMaterials);
         optionsCoverDepth =
                 FXCollections.observableArrayList(
-                        "2 mm", "5 mm", "7 mm","10 mm", "12 mm", "15 mm", "17 mm", "20 mm"
+                        "2 mm", "5 mm", "7 mm", "10 mm", "12 mm", "15 mm", "17 mm", "20 mm"
                 );
         coverDepthComboBox.setItems(optionsCoverDepth);
-        optionsNumber = FXCollections.observableArrayList ("2","3","4","5");
-        numberComboBox.setItems(optionsNumber);
+        optionsCoverNumber = FXCollections.observableArrayList("1", "2", "3", "4", "5");
+        coverNumberComboBox.setItems(optionsCoverNumber);
         coverDepthComboBox.setPromptText("Grubość przesłony");
-        numberComboBox.setPromptText("Liczba przesłon");
+        coverNumberComboBox.setPromptText("Liczba przesłon");
         coverMaterialComboBox.setPromptText("Materiał przesłony");
         lineChart.setTitle("Osłabienie promieniowania gamma");
         linearScaleButton.setText("Skala liniowa");
@@ -65,45 +85,32 @@ public class Controller {
         coverMaterialComboBox.setPromptText("Material of screen");
         optionsCoverDepth =
                 FXCollections.observableArrayList(
-                        "2 mm", "5 mm", "7 mm","10 mm", "12 mm", "15 mm", "17 mm", "20 mm"
+                        "2 mm", "5 mm", "7 mm", "10 mm", "12 mm", "15 mm", "17 mm", "20 mm"
                 );
         coverDepthComboBox.setItems(optionsCoverDepth);
+        optionsCoverNumber = FXCollections.observableArrayList("1", "2", "3", "4", "5");
+        coverNumberComboBox.setItems(optionsCoverNumber);
         coverDepthComboBox.setPromptText("Size of screen");
-        numberComboBox.setPromptText("Number of screens");
+        coverNumberComboBox.setPromptText("Number of screens");
         lineChart.setTitle("The weakening of gamma radiation");
-        //setTitle("Simulation - Gamma");
         linearScaleButton.setText("Linear scale");
         loggharytmicScaleButton.setText("Logharytmic scale");
         exportButton.setText("Export");
-
     }
-
-    @FXML
-    ComboBox<String> coverMaterialComboBox;
-    @FXML
-    Button exportButton;
-    @FXML
-    ComboBox<String> numberComboBox;
-    @FXML
-    ComboBox<String> coverDepthComboBox;
-    @FXML
-    LineChart<Double,Double> lineChart;
-    @FXML
-    RadioButton linearScaleButton;
-    @FXML
-    RadioButton loggharytmicScaleButton;
 
     @FXML
     void startAction() {
         //Start animacji
 
     }
+
     @FXML
-    void stopAction(){
+    void stopAction() {
         //Stop Animacja
     }
+
     @FXML
-    void exportAction(){
+    void exportAction() {
         image = lineChart.snapshot(new SnapshotParameters(), null);
         file = new File("chart.png");
         try {
@@ -114,7 +121,7 @@ public class Controller {
     }
 
     @FXML
-    void chooseCoverMaterial(){
+    void chooseCoverMaterial() {
         if (coverMaterialComboBox.getValue().equals("Ołów (Pb)"))
             miFactor = 0.15;
         if (coverMaterialComboBox.getValue().equals("Miedź (Cu)"))
@@ -122,17 +129,21 @@ public class Controller {
         if (coverMaterialComboBox.getValue().equals("Aluminium (Al)"))
             miFactor = 0.049;
     }
+
     @FXML
-    void chooseNumberScreens(){
-        if (numberComboBox.getValue().equals("2"))
-            numberScreens = 2;
-        if (numberComboBox.getValue().equals("3"))
-            numberScreens = 3;
-        if (numberComboBox.getValue().equals("4"))
-            numberScreens = 4;
-        if (numberComboBox.getValue().equals("5"))
-            numberScreens = 5;
+    void chooseNumberCovers() {
+        if (coverNumberComboBox.getValue().equals("1"))
+            coverNumber = 1;
+        if (coverNumberComboBox.getValue().equals("2"))
+            coverNumber = 2;
+        if (coverNumberComboBox.getValue().equals("3"))
+            coverNumber = 3;
+        if (coverNumberComboBox.getValue().equals("4"))
+            coverNumber = 4;
+        if (coverNumberComboBox.getValue().equals("5"))
+            coverNumber = 5;
     }
+
     @FXML
     void chooseCoverDepth() {
         if (coverDepthComboBox.getValue().equals("2 mm"))
@@ -158,19 +169,23 @@ public class Controller {
         double dii = 0.01; //krok dodawania do x
         double I_o = 1000; //wartosc poczatkowa natezenia (przykladowa)
         double x=0;
+        double y=1;
         ObservableList<XYChart.Data<Double, Double>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Double, Double>> lineChartSeries;
         lineChartSeries= FXCollections.observableArrayList();
 
-         while (x <= coverDepth) {
-           double argument=((-1)*miFactor*numberScreens*x);
-           double y = I_o * Math.exp(argument);
-             lineChartData.add(new LineChart.Data(x,y));
-             x += dii;
+        while (x <= coverDepth*coverNumber) {
+
+            double argument=((-1)*miFactor*coverNumber*x);
+            y = I_o * Math.exp(argument);
+            lineChartData.add(new LineChart.Data(x,y));
+            x += dii;
+
         }
         lineChartSeries.add(new LineChart.Series(lineChartData));
         lineChart.setData(lineChartSeries);
+        lineChart.setCreateSymbols(false);
     }
 
     @FXML
@@ -182,20 +197,28 @@ public class Controller {
         ObservableList<XYChart.Data<Double, Double>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Double, Double>> lineChartSeries;
+
         lineChartSeries= FXCollections.observableArrayList();
-        while ( x <= coverDepth ) {
-            //while ( y>=0 ) {
-                double argument = (-1) * miFactor * numberScreens * x;
+        while (x <= coverDepth * coverNumber) {
+            {
+                if ( y>=0 ) {
+                double argument = (-1) * miFactor * coverNumber * x;
                 y = Math.log(I_o * Math.exp(argument));
                 lineChartData.add(new LineChart.Data(x, y));
                 x += dii;
-           // }
+                }
+                else
+                    break;
+            }
         }
         lineChartSeries.add(new LineChart.Series(lineChartData));
         lineChart.setData(lineChartSeries);
-    }
-}
 
+        lineChart.setCreateSymbols(false);
+    }
+
+
+}
 
 
 

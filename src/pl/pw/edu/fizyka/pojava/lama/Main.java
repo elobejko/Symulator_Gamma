@@ -12,12 +12,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Gamma.fxml"));
         Parent root = loader.load(getClass().getResource("Gamma.fxml"));
-        primaryStage.setTitle("Symulacja Gamma");
+        primaryStage.setTitle("Gamma");
         primaryStage.setScene(new Scene(root, 800, 500));
         Controller controller = loader.getController();
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

@@ -24,10 +24,10 @@
             </Pane>
             <LineChart fx:id="lineChart" legendVisible="false" maxHeight="250.0" maxWidth="41.0" minHeight="150.0" minWidth="390.0" style="-fx-background-color: #FFFFFF;">
               <xAxis>
-                <NumberAxis label="Grubość absorbentu [mm]" side="BOTTOM" />
+                <NumberAxis label="[mm]" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis label="Ilość żyjących cząstek gamma" side="LEFT" />
+                <NumberAxis label="" side="LEFT" />
               </yAxis>
                <HBox.margin>
                   <Insets right="15.0" top="15.0" />
@@ -49,7 +49,7 @@
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="numberComboBox" layoutX="60.0" layoutY="90.0" minWidth="-Infinity" onAction="#chooseNumberScreens" prefWidth="165.0" promptText="Liczba przesłon">
+                  <ComboBox fx:id="coverNumberComboBox" layoutX="60.0" layoutY="90.0" minWidth="-Infinity" onAction="#chooseNumberCovers" prefWidth="165.0" promptText="Liczba przesłon">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
