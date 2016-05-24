@@ -17,18 +17,18 @@
    <children>
       <HBox fx:id="simulationPane" focusTraversable="true" prefHeight="310.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;" VBox.vgrow="ALWAYS">
          <children>
-            <Pane fx:id="animationGamma" maxHeight="250.0" prefHeight="200.0" prefWidth="390.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
+            <Pane fx:id="animationGamma" maxHeight="255.0" prefHeight="255.0" prefWidth="406.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="15.0" top="15.0" />
                </HBox.margin>
             </Pane>
-            <LineChart fx:id="lineChart" legendVisible="false" maxHeight="250.0" maxWidth="41.0" minWidth="350.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
-              <xAxis>
-                <NumberAxis label="[mm]" side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis label="" side="LEFT" />
-              </yAxis>
+            <LineChart fx:id="lineChart" legendVisible="false" maxHeight="256.0" maxWidth="374.0" minWidth="350.0" prefHeight="256.0" prefWidth="374.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
+               <xAxis>
+                  <NumberAxis label="[mm]" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis label="" side="LEFT" />
+               </yAxis>
                <HBox.margin>
                   <Insets right="15.0" top="15.0" />
                </HBox.margin>
@@ -39,22 +39,22 @@
          <children>
             <VBox fillWidth="false" prefHeight="245.0" prefWidth="368.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
                <children>
-                  <ComboBox disable="true" minWidth="-Infinity" prefWidth="165.0" promptText="Materiał promieniujący">
+                  <ComboBox fx:id="sourceMaterialComboBox" minWidth="-Infinity" onAction="#chooseSourceMaterial" prefHeight="30.0" prefWidth="210.0" promptText="Materiał promieniujący">
                      <VBox.margin>
                         <Insets bottom="5.0" left="50.0" top="40.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="coverMaterialComboBox" layoutX="60.0" layoutY="50.0" minWidth="-Infinity" onAction="#chooseCoverMaterial" prefWidth="165.0" promptText="Materiał przesłony">
+                  <ComboBox fx:id="coverMaterialComboBox" layoutX="60.0" layoutY="50.0" minWidth="-Infinity" onAction="#chooseCoverMaterial" prefHeight="30.0" prefWidth="210.0" promptText="Materiał przesłony">
                      <VBox.margin>
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="coverNumberComboBox" layoutX="60.0" layoutY="90.0" minWidth="-Infinity" onAction="#chooseNumberCovers" prefWidth="165.0" promptText="Liczba przesłon">
+                  <ComboBox fx:id="coverNumberComboBox" layoutX="60.0" layoutY="90.0" minWidth="-Infinity" onAction="#chooseNumberCovers" prefHeight="30.0" prefWidth="210.0" promptText="Liczba przesłon">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="coverDepthComboBox" layoutX="60.0" layoutY="130.0" minWidth="-Infinity" onAction="#chooseCoverDepth" prefWidth="165.0" promptText="Grubość przesłon">
+                  <ComboBox fx:id="coverDepthComboBox" layoutX="60.0" layoutY="130.0" minWidth="-Infinity" onAction="#chooseCoverDepth" prefHeight="30.0" prefWidth="210.0" promptText="Grubość przesłon">
                      <VBox.margin>
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
@@ -65,17 +65,17 @@
                </HBox.margin>
             </VBox>
             <GridPane prefHeight="245.0" prefWidth="376.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="10.0" prefWidth="165.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="211.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+               </rowConstraints>
                <children>
                   <RadioButton fx:id="linearScaleButton" onAction="#linearScale" text="Skala liniowa">
                      <GridPane.margin>
@@ -107,9 +107,14 @@
                         <Insets left="100.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#initialize" text="PL" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#initialize" prefHeight="22.0" prefWidth="50.0" text="PL" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="30.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="refreshChartButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#refreshChart" text="Odśwież wykres" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
                </children>
