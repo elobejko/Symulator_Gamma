@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -13,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pw.edu.fizyka.pojava.lama.Controller">
+<VBox focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pw.edu.fizyka.pojava.lama.Controller">
    <children>
       <HBox fx:id="simulationPane" focusTraversable="true" prefHeight="310.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;" VBox.vgrow="ALWAYS">
          <children>
@@ -39,7 +44,7 @@
          <children>
             <VBox fillWidth="false" prefHeight="245.0" prefWidth="368.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
                <children>
-                  <ComboBox disable="true" minWidth="-Infinity" prefWidth="165.0" promptText="Materiał promieniujący">
+                  <ComboBox fx:id="sourceMaterialComboBox" minWidth="-Infinity" onAction="#chooseSourceMaterial" prefWidth="165.0" promptText="Materiał promieniujący">
                      <VBox.margin>
                         <Insets bottom="5.0" left="50.0" top="40.0" />
                      </VBox.margin>

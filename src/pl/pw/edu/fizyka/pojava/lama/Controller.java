@@ -2,6 +2,7 @@ package pl.pw.edu.fizyka.pojava.lama;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.animation.KeyFrame;
 import javafx.scene.layout.HBox;
@@ -19,6 +20,11 @@ import javafx.scene.SnapshotParameters;
 import java.io.File;
 import javafx.geometry.Bounds;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ToggleGroup;
@@ -29,6 +35,8 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.util.Duration;
 public class Controller {
 
+    @FXML
+    ComboBox<String> sourceMaterialComboBox;
     @FXML
     ComboBox<String> coverMaterialComboBox;
     @FXML
@@ -51,12 +59,20 @@ public class Controller {
     double coverDepth;
     double miFactor;
     double coverNumber;
+    double startGamma;  // początkowa liczba kwantów gamma
+    final List<String> plutoniumLabel = Collections.unmodifiableList(Arrays.asList("Pluton (Pu)", "Plutonium (Pu)"));
+    final List<String> uraniumLabel = Collections.unmodifiableList(Arrays.asList("Uran (U)", "Uranium (U)"));
+    final List<String> cobaltLabel = Collections.unmodifiableList(Arrays.asList("Kobalt (Co)", "Cobalt (Co)"));
+    final List<String> leadLabel = Collections.unmodifiableList(Arrays.asList("Ołów (Pb)", "Lead"));
+    final List<String> copperLabel = Collections.unmodifiableList(Arrays.asList("Copper", "Miedź (Cu)"));
+    final List<String> aluminumLabel = Collections.unmodifiableList(Arrays.asList("Aluminum", "Aluminium (Al)"));
     double numberSteps;
     WritableImage image;
     File file;
     ToggleGroup groupButtons;
     Line coverLine;
 
+    ObservableList<String> optionsSourceMaterials;
     ObservableList<String> optionsCoverMaterials;
     ObservableList<String> optionsCoverDepth;
     ObservableList<String> optionsCoverNumber;
@@ -68,6 +84,12 @@ public class Controller {
         groupButtons = new ToggleGroup();
         linearScaleButton.setToggleGroup(groupButtons);
         loggharytmicScaleButton.setToggleGroup(groupButtons);
+        optionsSourceMaterials =
+                FXCollections.observableArrayList(
+                        "Kobalt (Co)",
+                        "Pluton (Pu)",
+                        "Uran (U)"
+                );
         optionsCoverMaterials =
                 FXCollections.observableArrayList(
                         "Miedź (Cu)",
@@ -82,9 +104,11 @@ public class Controller {
         coverDepthComboBox.setItems(optionsCoverDepth);
         optionsCoverNumber = FXCollections.observableArrayList("1", "2", "3", "4", "5");
         coverNumberComboBox.setItems(optionsCoverNumber);
+        sourceMaterialComboBox.setItems(optionsSourceMaterials);
         coverDepthComboBox.setPromptText("Grubość przesłony");
         coverNumberComboBox.setPromptText("Liczba przesłon");
         coverMaterialComboBox.setPromptText("Materiał przesłony");
+        sourceMaterialComboBox.setPromptText("Materiał źródła");
         lineChart.setTitle("Osłabienie promieniowania gamma");
         linearScaleButton.setText("Skala liniowa");
         loggharytmicScaleButton.setText("Skala logarytmiczna");
@@ -100,16 +124,26 @@ public class Controller {
                         "Lead"
                 );
         coverMaterialComboBox.setItems(optionsCoverMaterials);
-        coverMaterialComboBox.setPromptText("Material of screen");
+
+        optionsSourceMaterials =
+                FXCollections.observableArrayList(
+                        "Cobalt (Co)",
+                        "Plutonium (Pu)",
+                        "Uranium (U)"
+                );
+
         optionsCoverDepth =
                 FXCollections.observableArrayList(
                         "2 mm", "5 mm", "7 mm", "10 mm", "12 mm", "15 mm", "17 mm", "20 mm"
                 );
-        coverDepthComboBox.setItems(optionsCoverDepth);
         optionsCoverNumber = FXCollections.observableArrayList("1", "2", "3", "4", "5");
+        coverDepthComboBox.setItems(optionsCoverDepth);
+        sourceMaterialComboBox.setItems(optionsSourceMaterials);
         coverNumberComboBox.setItems(optionsCoverNumber);
         coverDepthComboBox.setPromptText("Size of screen");
         coverNumberComboBox.setPromptText("Number of screens");
+        coverMaterialComboBox.setPromptText("Material of screen");
+        sourceMaterialComboBox.setPromptText("Material of source");
         lineChart.setTitle("The weakening of gamma radiation");
         linearScaleButton.setText("Linear scale");
         loggharytmicScaleButton.setText("Logharytmic scale");
@@ -179,7 +213,7 @@ public class Controller {
 
     @FXML
     void stopAction() {
-
+        //Stop Animacja
     }
 
     @FXML
@@ -189,60 +223,74 @@ public class Controller {
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
         } catch (IOException e) {
+            // TODO: handle exception here
         }
+    }
+
+    @FXML
+    void chooseSourceMaterial() {
+        if (cobaltLabel.contains(sourceMaterialComboBox.getValue()))
+            startGamma = 40000000000000d;
+
+        if (plutoniumLabel.contains(sourceMaterialComboBox.getValue()))
+            startGamma = 2000000000;
+
+        if (uraniumLabel.contains(sourceMaterialComboBox.getValue()))
+            startGamma = 40000;
     }
 
     @FXML
     void chooseCoverMaterial() {
-        if (coverMaterialComboBox.getValue().equals("Ołów (Pb)")) {
+        if (leadLabel.contains(coverMaterialComboBox.getValue()))
             miFactor = 0.15;
-        }
-        if (coverMaterialComboBox.getValue().equals("Miedź (Cu)")) {
+        if (copperLabel.contains(coverMaterialComboBox.getValue()))
             miFactor = 0.093;
-        }
-        if (coverMaterialComboBox.getValue().equals("Aluminium (Al)")) {
+        if (aluminumLabel.contains(coverMaterialComboBox.getValue()))
             miFactor = 0.049;
-        }
     }
 
     @FXML
     void chooseNumberCovers() {
-        if (coverNumberComboBox.getValue().equals("1"))
-            coverNumber = 1;
-        if (coverNumberComboBox.getValue().equals("2"))
-            coverNumber = 2;
-        if (coverNumberComboBox.getValue().equals("3"))
-            coverNumber = 3;
-        if (coverNumberComboBox.getValue().equals("4"))
-            coverNumber = 4;
-        if (coverNumberComboBox.getValue().equals("5"))
-            coverNumber = 5;
+        if (coverNumberComboBox.getValue() != null){
+            if (coverNumberComboBox.getValue().equals("1"))
+                coverNumber = 1;
+            if (coverNumberComboBox.getValue().equals("2"))
+                coverNumber = 2;
+            if (coverNumberComboBox.getValue().equals("3"))
+                coverNumber = 3;
+            if (coverNumberComboBox.getValue().equals("4"))
+                coverNumber = 4;
+            if (coverNumberComboBox.getValue().equals("5"))
+                coverNumber = 5;
+        }
     }
 
     @FXML
     void chooseCoverDepth() {
-        if (coverDepthComboBox.getValue().equals("2 mm"))
-            coverDepth = 2;
-        if (coverDepthComboBox.getValue().equals("5 mm"))
-            coverDepth = 5;
-        if (coverDepthComboBox.getValue().equals("7 mm"))
-            coverDepth = 7;
-        if (coverDepthComboBox.getValue().equals("10 mm"))
-            coverDepth = 10;
-        if (coverDepthComboBox.getValue().equals("12 mm"))
-            coverDepth = 12;
-        if (coverDepthComboBox.getValue().equals("15 mm"))
-            coverDepth = 15;
-        if (coverDepthComboBox.getValue().equals("17 mm"))
-            coverDepth = 17;
-        if (coverDepthComboBox.getValue().equals("20 mm"))
-            coverDepth = 20;
+        if(coverDepthComboBox.getValue() != null){
+            if (coverDepthComboBox.getValue().equals("2 mm"))
+                coverDepth = 2;
+            if (coverDepthComboBox.getValue().equals("5 mm"))
+                coverDepth = 5;
+            if (coverDepthComboBox.getValue().equals("7 mm"))
+                coverDepth = 7;
+            if (coverDepthComboBox.getValue().equals("10 mm"))
+                coverDepth = 10;
+            if (coverDepthComboBox.getValue().equals("12 mm"))
+                coverDepth = 12;
+            if (coverDepthComboBox.getValue().equals("15 mm"))
+                coverDepth = 15;
+            if (coverDepthComboBox.getValue().equals("17 mm"))
+                coverDepth = 17;
+            if (coverDepthComboBox.getValue().equals("20 mm"))
+                coverDepth = 20;
+        }
     }
 
     @FXML
     void linearScale(){
         double dii = 0.01; //krok dodawania do x
-        double I_o = 1000; //wartosc poczatkowa natezenia (przykladowa)
+        double I_o = startGamma; //wartosc poczatkowa natezenia (przykladowa)
         double x=0;
         double y=1;
         ObservableList<XYChart.Data<Double, Double>> lineChartData;
@@ -252,7 +300,7 @@ public class Controller {
 
         while (x <= coverDepth*coverNumber) {
 
-            double argument=((-1)*miFactor*coverNumber*x);
+            double argument=((-1)*miFactor*x);
             y = I_o * Math.exp(argument);
             lineChartData.add(new LineChart.Data(x,y));
             x += dii;
@@ -265,7 +313,7 @@ public class Controller {
     @FXML
     void logarithmicScale(){
         double dii = 0.01; //krok dodawania do x
-        double I_o = 1000; //wartosc poczatkowa natezenia (przykladowa)
+        double I_o = startGamma; //wartosc poczatkowa natezenia (przykladowa)
         double x=0;
         double y=0;
         ObservableList<XYChart.Data<Double, Double>> lineChartData;
@@ -273,10 +321,11 @@ public class Controller {
         ObservableList<XYChart.Series<Double, Double>> lineChartSeries;
 
         lineChartSeries= FXCollections.observableArrayList();
+
         while (x <= coverDepth * coverNumber) {
             {
                 if ( y>=0 ) {
-                double argument = (-1) * miFactor * coverNumber * x;
+                double argument = (-1) * miFactor  * x;
                 y = Math.log(I_o * Math.exp(argument));
                 lineChartData.add(new LineChart.Data(x, y));
                 x += dii;
