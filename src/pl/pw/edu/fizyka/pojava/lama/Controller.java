@@ -3,6 +3,12 @@ package pl.pw.edu.fizyka.pojava.lama;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.animation.KeyFrame;
+import javafx.scene.layout.HBox;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Circle;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
@@ -11,15 +17,24 @@ import javafx.scene.control.Button;
 import javafx.scene.image.WritableImage;
 import javafx.scene.SnapshotParameters;
 import java.io.File;
+import javafx.geometry.Bounds;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ToggleGroup;
-
+import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
+import javafx.animation.Timeline;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.util.Duration;
 public class Controller {
 
     @FXML
     ComboBox<String> coverMaterialComboBox;
+    @FXML
+    HBox simulationPane;
+    @FXML
+    Pane animationGamma;
     @FXML
     Button exportButton;
     @FXML
@@ -36,9 +51,11 @@ public class Controller {
     double coverDepth;
     double miFactor;
     double coverNumber;
+    double numberSteps;
     WritableImage image;
     File file;
     ToggleGroup groupButtons;
+    Line coverLine;
 
     ObservableList<String> optionsCoverMaterials;
     ObservableList<String> optionsCoverDepth;
@@ -47,6 +64,7 @@ public class Controller {
     @FXML
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        coverLine = new Line(100, 5, 100, 245);
         groupButtons = new ToggleGroup();
         linearScaleButton.setToggleGroup(groupButtons);
         loggharytmicScaleButton.setToggleGroup(groupButtons);
@@ -100,13 +118,68 @@ public class Controller {
 
     @FXML
     void startAction() {
-        //Start animacji
+        beforeCoverAnimation();
+        afterCoverAnimation();
+    }
 
+    void beforeCoverAnimation() {
+        numberSteps=0;
+        //wstawienie bariery
+        animationGamma.getChildren().remove(coverLine);
+        coverLine = new Line(100, 5, 100, 245);
+        coverLine.setStrokeWidth(coverDepth);
+        coverLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        animationGamma.getChildren().add(coverLine);
+        while (numberSteps < 230) {
+            //kulki - poczatkowa liczba 15 - rozpatrujemy jedna paczke kwantowa
+            Circle circle = new Circle(3, Color.BLUE);
+            circle.relocate(10, 10 + numberSteps);
+            numberSteps += 15;
+            animationGamma.getChildren().add(circle);
+            Timeline loopBeforeCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(final ActionEvent t) {
+                    if (circle.getLayoutX() < 95) {
+                        circle.setLayoutX(circle.getLayoutX() + +Math.random() + 0.6);
+                        circle.setLayoutY(circle.getLayoutY() + Math.random() - 0.5);
+                    }
+                     else
+                        circle.setVisible(false);
+        }
+            }));
+            loopBeforeCover.setCycleCount(Timeline.INDEFINITE);
+            loopBeforeCover.play();}
+    }
+
+    void afterCoverAnimation() {
+        numberSteps=0;
+        while (numberSteps < 15*15*Math.exp((-1)*miFactor*coverDepth)) {
+            //kulki - poczatkowa liczba 15 - rozpatrujemy jedna paczke kwantowa
+            Circle circle = new Circle(3, Color.BLUE);
+            circle.setVisible(false);
+            circle.relocate(91 + coverDepth, 30 + numberSteps);
+            numberSteps += 15;
+            animationGamma.getChildren().addAll(circle);
+            Timeline loopAfterCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(final ActionEvent t) {
+                    if (circle.getLayoutX() > 91+coverDepth && circle.getLayoutX() < 400 ) {
+                        circle.setVisible(true);
+                        circle.setLayoutX(circle.getLayoutX() + + Math.random() + 0.6);
+                        circle.setLayoutY(circle.getLayoutY() + Math.random()-0.5);
+                    } else
+                        circle.setVisible(false);
+                }
+            }));
+            loopAfterCover.setCycleCount(Timeline.INDEFINITE);
+            loopAfterCover.setDelay(Duration.millis(2300));
+            loopAfterCover.play();}
     }
 
     @FXML
     void stopAction() {
-        //Stop Animacja
+
     }
 
     @FXML
@@ -116,18 +189,20 @@ public class Controller {
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
         } catch (IOException e) {
-            // TODO: handle exception here
         }
     }
 
     @FXML
     void chooseCoverMaterial() {
-        if (coverMaterialComboBox.getValue().equals("Ołów (Pb)"))
+        if (coverMaterialComboBox.getValue().equals("Ołów (Pb)")) {
             miFactor = 0.15;
-        if (coverMaterialComboBox.getValue().equals("Miedź (Cu)"))
+        }
+        if (coverMaterialComboBox.getValue().equals("Miedź (Cu)")) {
             miFactor = 0.093;
-        if (coverMaterialComboBox.getValue().equals("Aluminium (Al)"))
+        }
+        if (coverMaterialComboBox.getValue().equals("Aluminium (Al)")) {
             miFactor = 0.049;
+        }
     }
 
     @FXML
@@ -181,7 +256,6 @@ public class Controller {
             y = I_o * Math.exp(argument);
             lineChartData.add(new LineChart.Data(x,y));
             x += dii;
-
         }
         lineChartSeries.add(new LineChart.Series(lineChartData));
         lineChart.setData(lineChartSeries);

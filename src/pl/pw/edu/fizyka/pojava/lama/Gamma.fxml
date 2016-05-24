@@ -13,16 +13,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pw.edu.fizyka.pojava.lama.Controller">
+<VBox focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pw.edu.fizyka.pojava.lama.Controller">
    <children>
-      <HBox prefHeight="310.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;">
+      <HBox fx:id="simulationPane" focusTraversable="true" prefHeight="310.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;" VBox.vgrow="ALWAYS">
          <children>
-            <Pane maxHeight="250.0" prefHeight="200.0" prefWidth="390.0" style="-fx-background-color: #FFFFFF;">
+            <Pane fx:id="animationGamma" maxHeight="250.0" prefHeight="200.0" prefWidth="390.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="15.0" top="15.0" />
                </HBox.margin>
             </Pane>
-            <LineChart fx:id="lineChart" legendVisible="false" maxHeight="250.0" maxWidth="41.0" minHeight="150.0" minWidth="390.0" style="-fx-background-color: #FFFFFF;">
+            <LineChart fx:id="lineChart" legendVisible="false" maxHeight="250.0" maxWidth="41.0" minWidth="350.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
               <xAxis>
                 <NumberAxis label="[mm]" side="BOTTOM" />
               </xAxis>
@@ -35,9 +35,9 @@
             </LineChart>
          </children>
       </HBox>
-      <HBox prefHeight="258.0" prefWidth="743.0">
+      <HBox fillHeight="false" prefHeight="258.0" prefWidth="743.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="245.0" prefWidth="368.0" style="-fx-background-color: #EEEEEE;">
+            <VBox fillWidth="false" prefHeight="245.0" prefWidth="368.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
                <children>
                   <ComboBox disable="true" minWidth="-Infinity" prefWidth="165.0" promptText="Materiał promieniujący">
                      <VBox.margin>
@@ -64,7 +64,7 @@
                   <Insets />
                </HBox.margin>
             </VBox>
-            <GridPane prefHeight="245.0" prefWidth="376.0" style="-fx-background-color: #EEEEEE;">
+            <GridPane prefHeight="245.0" prefWidth="376.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -92,7 +92,7 @@
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button layoutX="40.0" layoutY="79.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#stopAction" text="Stop" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
+                  <Button layoutX="40.0" layoutY="79.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#stopAction" text="Stop" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
