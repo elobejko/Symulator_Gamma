@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
@@ -70,6 +71,7 @@ public class Controller {
     File file;
     ToggleGroup groupButtons;
     Line coverLine;
+    Timeline loopBeforeCover;
 
     ObservableList<String> optionsSourceMaterials;
     ObservableList<String> optionsCoverMaterials;
@@ -79,7 +81,6 @@ public class Controller {
     @FXML
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        coverLine = new Line(100, 5, 100, 245);
         groupButtons = new ToggleGroup();
         linearScaleButton.setToggleGroup(groupButtons);
         loggharytmicScaleButton.setToggleGroup(groupButtons);
@@ -152,25 +153,27 @@ public class Controller {
 
     @FXML
     void startAction() {
-        beforeCoverAnimation();
-        afterCoverAnimation();
+        for(int s=0; s<20; s++) {
+            animationGamma.getChildren().clear();
+            beforeCoverAnimation();
+            afterCoverAnimation();
+        }
     }
 
     void beforeCoverAnimation() {
         numberSteps=0;
         //wstawienie bariery
         animationGamma.getChildren().remove(coverLine);
-        coverLine = new Line(100, 5, 100, 245);
+        coverLine = new Line(100, 5, 100, 250);
         coverLine.setStrokeWidth(coverDepth);
-        coverLine.setStrokeLineCap(StrokeLineCap.ROUND);
         animationGamma.getChildren().add(coverLine);
-        while (numberSteps < 230) {
+        while (numberSteps < 1000) {
             //kulki - poczatkowa liczba 15 - rozpatrujemy jedna paczke kwantowa
-            Circle circle = new Circle(3, Color.BLUE);
-            circle.relocate(10, 10 + numberSteps);
-            numberSteps += 15;
+            Circle circle = new Circle(1, Color.BLUE);
+            circle.relocate(10*Math.random(), Math.random()*250);
+            numberSteps ++;
             animationGamma.getChildren().add(circle);
-            Timeline loopBeforeCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
+            loopBeforeCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(final ActionEvent t) {
                     if (circle.getLayoutX() < 95) {
@@ -181,18 +184,19 @@ public class Controller {
                         circle.setVisible(false);
                 }
             }));
+           // loopBeforeCover.setDelay(Duration.millis(50));
             loopBeforeCover.setCycleCount(Timeline.INDEFINITE);
             loopBeforeCover.play();}
     }
 
     void afterCoverAnimation() {
         numberSteps=0;
-        while (numberSteps < 15*15*Math.exp((-1)*miFactor*coverDepth)) {
+        while (numberSteps < 1000*Math.exp((-1)*miFactor*coverDepth)) {
             //kulki - poczatkowa liczba 15 - rozpatrujemy jedna paczke kwantowa
-            Circle circle = new Circle(3, Color.BLUE);
+            Circle circle = new Circle(1, Color.BLUE);
             circle.setVisible(false);
-            circle.relocate(91 + coverDepth, 30 + numberSteps);
-            numberSteps += 15;
+            circle.relocate(91 + coverDepth + Math.random(), Math.random()*250);
+            numberSteps ++;
             animationGamma.getChildren().addAll(circle);
             Timeline loopAfterCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
 
