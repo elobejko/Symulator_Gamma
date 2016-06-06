@@ -66,8 +66,8 @@
             </VBox>
             <GridPane prefHeight="245.0" prefWidth="376.0" style="-fx-background-color: #EEEEEE;" HBox.hgrow="ALWAYS">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="10.0" prefWidth="165.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="211.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="176.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="200.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
@@ -77,44 +77,39 @@
                   <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <RadioButton fx:id="linearScaleButton" onAction="#linearScale" text="Skala liniowa">
+                  <RadioButton fx:id="linearScaleButton" onAction="#linearScale" text="Skala liniowa" GridPane.columnIndex="1">
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="20.0" />
                      </GridPane.margin>
                   </RadioButton>
-                  <RadioButton fx:id="loggharytmicScaleButton" mnemonicParsing="false" onAction="#logarithmicScale" text="Skala logarytmiczna" GridPane.columnIndex="1">
+                  <RadioButton fx:id="logarithmicScaleButton" mnemonicParsing="false" onAction="#logarithmicScale" text="Skala logarytmiczna" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="20.0" />
                      </GridPane.margin>
                   </RadioButton>
-                  <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#startAction" text="Start" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
+                  <Button fx:id="exportButton" layoutX="40.0" layoutY="113.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportAction" text="Eksportuj" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
-                        <Insets left="30.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button layoutX="40.0" layoutY="79.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#stopAction" text="Stop" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                     <GridPane.margin>
-                        <Insets left="30.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button fx:id="exportButton" layoutX="40.0" layoutY="113.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportAction" text="Eksportuj" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="20.0" />
                      </GridPane.margin>
                   </Button>
                   <Button minWidth="50.0" mnemonicParsing="false" onAction="#initializeEnglish" text="Eng" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
-                        <Insets left="100.0" />
+                        <Insets left="115.0" />
                      </GridPane.margin>
                   </Button>
                   <Button minWidth="50.0" mnemonicParsing="false" onAction="#initialize" prefHeight="22.0" prefWidth="50.0" text="PL" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="refreshChartButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#refreshChart" text="Odśwież wykres" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="refreshChartButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#refreshChart" text="Odśwież wykres" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
-                        <Insets left="40.0" />
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="animationButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#startAction" text="Animacja" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="35.0" />
                      </GridPane.margin>
                   </Button>
                </children>
