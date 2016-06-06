@@ -173,7 +173,7 @@ public class Controller {
     void beforeAbsorption() {
         int numberSteps = 0;
         while (numberSteps < 200) {
-            Circle gammaPortion = new Circle(2, Color.BLUE);
+            final Circle gammaPortion = new Circle(2, Color.BLUE);
             gammaPortion.relocate(10 * Math.random(), Math.random() * 250);
             animationGamma.getChildren().add(gammaPortion);
             loopBeforeCover = new Timeline(new KeyFrame(Duration.millis(30), new EventHandler<ActionEvent>() {
